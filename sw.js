@@ -1,5 +1,5 @@
 // bump VERSION on every publish
-const VERSION = 'v66-isoptin-release-separated';
+const VERSION = 'v67-vitamin-d-formulas-separated';
 const CACHE = 'shelf-' + VERSION;
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
