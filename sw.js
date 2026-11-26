@@ -1,5 +1,5 @@
 // bump VERSION on every publish
-const VERSION = 'v42-diacurimap-glucophage-separated';
+const VERSION = 'v43-empacyrl-trio-separated';
 const CACHE = 'shelf-' + VERSION;
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
