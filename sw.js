@@ -1,5 +1,5 @@
 // bump VERSION on every publish
-const VERSION = 'v48-antibiotic-brand-splits';
+const VERSION = 'v49-gliptus-gleptomet-distinct-ingredients';
 const CACHE = 'shelf-' + VERSION;
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
