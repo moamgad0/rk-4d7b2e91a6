@@ -1,5 +1,5 @@
 // bump VERSION on every publish
-const VERSION = 'v34-five-doses-two-webpacks';
+const VERSION = 'v35-six-allergy-gi-dose-cards';
 const CACHE = 'shelf-' + VERSION;
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
