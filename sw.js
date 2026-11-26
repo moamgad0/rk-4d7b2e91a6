@@ -1,5 +1,5 @@
 // bump VERSION on every publish
-const VERSION = 'v53-closol-clindasol-verified-distinction';
+const VERSION = 'v54-cobal-carnitol-separate-formulas';
 const CACHE = 'shelf-' + VERSION;
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
