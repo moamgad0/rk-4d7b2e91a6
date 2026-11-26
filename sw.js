@@ -1,5 +1,5 @@
 // bump VERSION on every publish
-const VERSION = 'v54-cobal-carnitol-separate-formulas';
+const VERSION = 'v55-gestafemin-gestranil-itopride-itomash';
 const CACHE = 'shelf-' + VERSION;
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
