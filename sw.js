@@ -1,5 +1,5 @@
 // bump VERSION on every publish
-const VERSION = 'v73-2026-11-26-carnitine-split';
+const VERSION = 'v74-2026-11-26-panthenol-split';
 const CACHE = 'shelf-' + VERSION;
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
