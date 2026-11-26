@@ -1002,7 +1002,7 @@
             </div>
             ${fullDrugDetails(d)}
             ${renderDrugAlternatives(d)}
-            <a class="edit-card-btn block text-center w-full rounded-xl border border-slate-200 bg-slate-50 py-2 text-xs font-bold text-slate-700" href="https://t.me/instinct_telegram_bot" target="_blank" rel="noopener noreferrer">عدّل الكارت</a>
+            <a class="edit-card-btn block text-center w-full rounded-xl border border-slate-200 bg-slate-50 py-2 text-xs font-bold text-slate-700" href="https://t.me/instinct_telegram_bot?start=edit_${encodeURIComponent(d.id)}" target="_blank" rel="noopener noreferrer">عدّل الكارت</a>
             <button data-master-id="${d.id}" type="button" class="master-btn w-full py-1.5 rounded-xl text-xs font-bold border transition ${
               mastered
                 ? 'bg-emerald-600 text-white border-emerald-600 hover:bg-emerald-700'
