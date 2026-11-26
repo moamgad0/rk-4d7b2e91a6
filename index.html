@@ -847,6 +847,9 @@
     }
 
     // --- TAB 3: SHELF BY LETTER & CLINIC ---
+    let shelfPage=1,shelfLastQuery='';
+    const SHELF_PAGE_SIZE=20;
+    const shelfSearchIndex=new Map(DRUGS.map(d=>[d.id,`${d.brand} ${d.ar} ${d.active} ${d.hook} ${d.form} ${d.use || ''}`.toLowerCase()]));
     function renderShelf() {
       const shelfCounts = { _total: DRUGS.length };
       DRUGS.forEach(d => {
@@ -885,13 +888,25 @@
         if (state.shelfMasteryFilter === 'mastered' && !isMastered) return false;
         if (state.shelfMasteryFilter === 'unmastered' && isMastered) return false;
         if (q) {
-          const hay = `${d.brand} ${d.ar} ${d.active} ${d.hook} ${d.form} ${d.use || ''}`.toLowerCase();
+          const hay = shelfSearchIndex.get(d.id) || '';
           return hay.includes(q);
         }
         return true;
       });
 
-      document.getElementById('shelfCountLabel').textContent = `عرض ${filtered.length} من ${DRUGS.length} صنف`;
+      const queryKey=JSON.stringify([q,state.shelfSection,state.shelfClinic,state.shelfMasteryFilter]);
+      if(queryKey!==shelfLastQuery){shelfPage=1;shelfLastQuery=queryKey;}
+      const pageCount=Math.max(1,Math.ceil(filtered.length/SHELF_PAGE_SIZE));
+      shelfPage=Math.min(shelfPage,pageCount);
+      const start=(shelfPage-1)*SHELF_PAGE_SIZE,visible=filtered.slice(start,start+SHELF_PAGE_SIZE);
+      document.getElementById('shelfCountLabel').textContent=filtered.length?`عرض ${start+1}–${start+visible.length} من ${filtered.length} نتيجة، إجمالي ${DRUGS.length} صنف`:`لا نتائج، إجمالي ${DRUGS.length} صنف`;
+      let pager=document.getElementById('shelfPager');
+      if(!pager){pager=document.createElement('div');pager.id='shelfPager';document.getElementById('shelfGrid').before(pager);}
+      pager.className='flex flex-wrap items-center justify-between gap-2 my-3';
+      pager.innerHTML=filtered.length>SHELF_PAGE_SIZE?`<button id="shelfPrev" class="border rounded-xl px-3 py-2 bg-white text-sm font-bold" ${shelfPage===1?'disabled':''}>السابق</button><span class="text-xs font-bold">صفحة ${shelfPage} من ${pageCount}</span><button id="shelfNext" class="border rounded-xl px-3 py-2 bg-teal-600 text-white text-sm font-bold" ${shelfPage===pageCount?'disabled':''}>التالي</button>`:'';
+      for(const [id,delta] of [['shelfPrev',-1],['shelfNext',1]]){
+       const btn=document.getElementById(id);if(btn)btn.onclick=()=>{shelfPage+=delta;renderShelf();document.getElementById('shelfPager').scrollIntoView({block:'start'});};
+      }
 
       const grid = document.getElementById('shelfGrid');
       if (filtered.length === 0) {
@@ -899,7 +914,7 @@
         return;
       }
 
-      grid.innerHTML = filtered.map(d => {
+      grid.innerHTML = visible.map(d => {
         const mastered = state.masteredIds.includes(d.id);
         const sec = getDrugSection(d);
         const isSpecialForm = /استحلاب|مضغ|توفي|تحت اللسان|حقن|أمبول|سرنج|قلم|لبوس|قطرة|نيبولايزر|كريم|مرهم|جل|شوكولاتة|أفلام/.test(d.form);
@@ -1022,9 +1037,10 @@
       renderTrapQuiz();
     });
 
+    let shelfSearchTimer;
     document.getElementById('shelfSearch').addEventListener('input', e => {
       state.shelfSearch = e.target.value;
-      renderShelf();
+      clearTimeout(shelfSearchTimer);shelfSearchTimer=setTimeout(renderShelf,160);
     });
 
     document.getElementById('masteryFilter').addEventListener('change', e => {
