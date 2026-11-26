@@ -1,5 +1,5 @@
 // bump VERSION on every publish
-const VERSION = 'v67-vitamin-d-formulas-separated';
+const VERSION = 'v68-actrapid-cartridge-vial-separated';
 const CACHE = 'shelf-' + VERSION;
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
