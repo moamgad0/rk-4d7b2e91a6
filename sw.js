@@ -1,5 +1,5 @@
 // bump VERSION on every publish
-const VERSION = 'v60-iron-products-four-separate-formulas';
+const VERSION = 'v61-dapagloznal-eva-separate-brands';
 const CACHE = 'shelf-' + VERSION;
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
