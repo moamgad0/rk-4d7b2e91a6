@@ -1,5 +1,5 @@
 // bump VERSION on every publish
-const VERSION = 'v29-ingredient-dose-inheritance';
+const VERSION = 'v30-ursofalk-verified';
 const CACHE = 'shelf-' + VERSION;
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
