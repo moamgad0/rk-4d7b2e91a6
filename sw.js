@@ -1,5 +1,5 @@
 // bump VERSION on every publish
-const VERSION = 'v2-2026-11-26';
+const VERSION = 'v3-2026-11-26';
 const CACHE = 'shelf-' + VERSION;
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
@@ -12,6 +12,8 @@ self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
+  // Item images are online-only, loaded on tap, never precached or runtime cached.
+  if (url.origin === location.origin && url.pathname.includes('/images/')) return;
   if (url.origin === location.origin) {
     // app files: revalidate with server (cheap 304 when unchanged), fall back to cache offline
     e.respondWith(fetch(req, {cache: 'no-cache'}).then(res => {
