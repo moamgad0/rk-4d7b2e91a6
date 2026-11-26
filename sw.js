@@ -1,5 +1,5 @@
 // bump VERSION on every publish
-const VERSION = 'v20-fuzzy-autocomplete';
+const VERSION = 'v21-name-confusion-quiz';
 const CACHE = 'shelf-' + VERSION;
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
