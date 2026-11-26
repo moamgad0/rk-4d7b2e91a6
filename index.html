@@ -882,6 +882,10 @@
       state.shelfIngredient='';document.getElementById('ingredientFilter').value='';state.shelfSection='all';state.shelfClinic='all';state.shelfMasteryFilter='all';state.shelfSearch=d.brand;document.getElementById('shelfSearch').value=d.brand;renderShelf();
       document.getElementById('shelfGrid').scrollIntoView({block:'start'});
     }
+    function activeParts(d){return String(d.active||'').split(/\s*\+\s*/).map(x=>x.trim()).filter(Boolean);}
+    function componentKey(x){return String(x).toLowerCase().replace(/\([^)]*\)/g,'').replace(/\b(hydrochloride|hcl|succinate|dihydrochloride|dihydrate|hemihydrate|hydrate|besilate|besylate|maleate|fumarate|oxalate|tartrate|monohydrate)\b/g,'').replace(/\s+/g,' ').trim();}
+    function hasIngredient(d,key){return ingredientKey(d)===key||activeParts(d).some(x=>componentKey(x)===componentKey(key));}
+    function showIngredientPart(id,i){const d=drugById.get(id),part=activeParts(d)[i];if(!part)return;document.querySelector('[data-tab=shelf]').click();state.shelfIngredient=componentKey(part);const select=document.getElementById('ingredientFilter');if(![...select.options].some(x=>x.value===state.shelfIngredient)){const opt=new Option(part,state.shelfIngredient);select.add(opt);}select.value=state.shelfIngredient;state.shelfSection='all';state.shelfClinic='all';state.shelfMasteryFilter='all';state.shelfSearch='';document.getElementById('shelfSearch').value='';renderShelf();document.getElementById('shelfGrid').scrollIntoView({block:'start'});}
     function showIngredient(id){
       document.querySelector('[data-tab=shelf]').click();state.shelfIngredient=ingredientKey(drugById.get(id));document.getElementById('ingredientFilter').value=state.shelfIngredient;
       state.shelfSection='all';state.shelfClinic='all';state.shelfMasteryFilter='all';state.shelfSearch='';document.getElementById('shelfSearch').value='';renderShelf();
@@ -939,7 +943,7 @@
 
       const q = state.shelfSearch.trim().toLowerCase();
       const filtered = DRUGS.filter(d => {
-        if(state.shelfIngredient && ingredientKey(d)!==state.shelfIngredient)return false;
+        if(state.shelfIngredient && !hasIngredient(d,state.shelfIngredient))return false;
         if (state.shelfSection !== 'all' && getDrugSection(d) !== state.shelfSection) return false;
         if (state.shelfClinic !== 'all' && d.clinic !== state.shelfClinic) return false;
         const isMastered = state.masteredIds.includes(d.id);
@@ -986,7 +990,7 @@
                 <div>
                   <div>
                     <span class="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-slate-100 text-slate-700">${sec === 'FRIDGE' ? '❄️' : sec}</span>
-                    <div class="en font-extrabold text-base text-slate-900" dir="ltr" style="display:block;width:100%">${d.brand}</div>
+                    <div class="en font-extrabold text-base text-slate-900" dir="ltr" style="display:block;width:100%">${d.brand}</div><div class="active-visible mt-1">${activeParts(d).map((x,i)=>`<button type="button" onclick="showIngredientPart('${d.id}',${i})" class="en text-xs text-teal-800 underline text-left" dir="auto" style="display:block;overflow-wrap:anywhere">${safeText(x)}</button>`).join('')}</div>
                   </div>
                   <div class="text-xs font-semibold text-slate-500">${d.ar}</div>
                 </div>
