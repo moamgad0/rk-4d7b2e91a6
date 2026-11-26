@@ -1,5 +1,5 @@
 // bump VERSION on every publish
-const VERSION = 'v79-2026-11-26-tebofortin-split';
+const VERSION = 'v80-2026-11-26-glycerin-split';
 const CACHE = 'shelf-' + VERSION;
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
