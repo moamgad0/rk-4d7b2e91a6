@@ -1,5 +1,5 @@
 // bump VERSION on every publish
-const VERSION = 'v46-flexofan-relax-markfast-lookalikes';
+const VERSION = 'v47-three-allergy-brand-pairs-split';
 const CACHE = 'shelf-' + VERSION;
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
