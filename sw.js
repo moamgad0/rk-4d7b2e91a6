@@ -1,5 +1,5 @@
 // bump VERSION on every publish
-const VERSION = 'v27-training-cases';
+const VERSION = 'v28-in-app-back-history';
 const CACHE = 'shelf-' + VERSION;
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {

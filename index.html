@@ -1216,6 +1216,26 @@ function openPackImage(id){
 }
 </script>
 
+<script>
+(function(){
+ let restoring=false,pending=false,scrollTimer,searchTimer;
+ const navKeys=['activeTab','scSection','scFilter','scIndex','scAnswered','scShowHint','shelfSection','shelfClinic','shelfSearch','shelfMasteryFilter','shelfIngredient','trapLetter','trapKind','trapQuizActive','trapQuizIdx','trapQuizScore','trapQuizAnswered'];
+ function snapshot(){const nav={};for(const k of navKeys)nav[k]=state[k];const controls={};document.querySelectorAll('input[id],select[id]').forEach(x=>{if(x.type!=='file')controls[x.id]=x.value;});controls.shelfSearch=state.shelfSearch;controls.masteryFilter=state.shelfMasteryFilter;controls.ingredientFilter=state.shelfIngredient;const details=[...document.querySelectorAll('details')].map((x,i)=>x.open?i:-1).filter(i=>i>=0);return {appNav:1,nav,controls,details,scrollY:window.scrollY,shelfPage,shelfLastQuery,mapLimit,image:document.getElementById('packImageDialog').open?document.getElementById('packImageView').dataset.drugId:null};}
+ function save(){if(!restoring)history.replaceState(snapshot(),'');}
+ function begin(){if(restoring||pending)return;save();history.pushState(snapshot(),'');pending=true;setTimeout(()=>{pending=false;save();},0);}
+ function restore(h){if(!h?.appNav)return;restoring=true;Object.assign(state,h.nav);for(const [id,value] of Object.entries(h.controls||{})){const el=document.getElementById(id);if(el)el.value=value;}shelfPage=h.shelfPage||1;shelfLastQuery=h.shelfLastQuery||'';mapLimit=h.mapLimit||12;renderTabs();if(state.activeTab==='shelf')renderShelf();if(state.activeTab==='scenarios')renderScenarios();if(state.activeTab==='traps'){renderTraps();renderTrapQuiz();}if(state.activeTab==='learn'){renderRecall();renderShelfMap();renderLookQuiz();renderEncounters();renderTrainingCase();}document.querySelectorAll('details').forEach((x,i)=>x.open=(h.details||[]).includes(i));document.getElementById('mapSuggestions').hidden=true;document.getElementById('shelfSuggestions').hidden=true;const dialog=document.getElementById('packImageDialog');if(h.image){openPackImage(h.image);}else if(dialog.open)dialog.close();requestAnimationFrame(()=>{window.scrollTo(0,h.scrollY||0);setTimeout(()=>{window.scrollTo(0,h.scrollY||0);restoring=false;},80);});}
+ for(const name of ['showDrugAlternative','showIngredientPart','showIngredient','openPackImage']){const fn=window[name];window[name]=function(...args){begin();const r=fn.apply(this,args);if(name==='openPackImage')document.getElementById('packImageView').dataset.drugId=args[0];setTimeout(save,0);return r;};}
+ document.addEventListener('click',e=>{const el=e.target.closest('button,summary,select');if(!el)return;if(el.matches('summary,.tab-btn,[data-section],[data-clinic],.section-btn,.clinic-btn,#shelfPrev,#shelfNext')||el.closest('#shelfSuggestions,#mapSuggestions'))begin();},true);
+ document.addEventListener('change',e=>{if(e.target.matches('#ingredientFilter,#masteryFilter')){begin();setTimeout(save,0);}},true);
+ for(const id of ['shelfSearch','mapSearch']){const input=document.getElementById(id);input.addEventListener('focus',save);input.addEventListener('input',()=>{clearTimeout(searchTimer);searchTimer=setTimeout(save,220);});}
+ document.addEventListener('toggle',()=>{if(!restoring)setTimeout(save,0);},true);
+ window.addEventListener('scroll',()=>{clearTimeout(scrollTimer);scrollTimer=setTimeout(save,100);},{passive:true});
+ window.addEventListener('popstate',e=>restore(e.state));
+ const dialog=document.getElementById('packImageDialog'),close=dialog.querySelector('button');close.onclick=()=>{if(history.state?.image)history.back();else dialog.close();};dialog.addEventListener('cancel',e=>{if(history.state?.image){e.preventDefault();history.back();}});
+ history.scrollRestoration='manual';if(history.state?.appNav)restore(history.state);else save();
+ window.appNavSnapshot=snapshot;
+})();
+</script>
 <script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(e){console.log('sw fail',e)})})}</script>
 </body>
 </html>
