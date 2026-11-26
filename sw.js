@@ -1,5 +1,5 @@
 // bump VERSION on every publish
-const VERSION = 'v62-dapagliflozin-metformin-release-separated';
+const VERSION = 'v63-gicyano-ginko-distinct-formulas';
 const CACHE = 'shelf-' + VERSION;
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
