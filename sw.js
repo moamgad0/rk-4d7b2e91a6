@@ -1,5 +1,5 @@
 // bump VERSION on every publish
-const VERSION = 'v82-2026-11-26-ateno-strength-audit';
+const VERSION = 'v83-2026-11-26-alkapress-full-audit';
 const CACHE = 'shelf-' + VERSION;
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
