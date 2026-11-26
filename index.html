@@ -882,16 +882,6 @@
       state.shelfIngredient='';document.getElementById('ingredientFilter').value='';state.shelfSection='all';state.shelfClinic='all';state.shelfMasteryFilter='all';state.shelfSearch=d.brand;document.getElementById('shelfSearch').value=d.brand;renderShelf();
       document.getElementById('shelfGrid').scrollIntoView({block:'start'});
     }
-    async function editDrugCard(id,button){
-      const d=drugById.get(id);if(!d)return;
-      const text='طلب تعديل كارت\nالدواء: '+d.brand+'\nمعرّف الكارت: '+d.id+'\nالتعديل: ';
-      let copyAttempt;try{copyAttempt=navigator.clipboard.writeText(text);}catch(e){copyAttempt=Promise.reject(e);}
-      const win=window.open('https://t.me/instinct_telegram_bot','_blank','noopener');
-      let ok=false;try{await copyAttempt;ok=true;}catch(e){const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.top='0';document.body.append(ta);ta.focus();ta.select();try{ok=document.execCommand('copy');}catch(err){}ta.remove();}
-      const notice=button.nextElementSibling;notice.hidden=false;
-      if(ok){notice.textContent='تم النسخ، الصق في تليجرام واكتب التعديل.';button.textContent='تم النسخ ✓';setTimeout(()=>{button.textContent='عدّل الكارت';},5000);}
-      else{notice.textContent='تعذر النسخ التلقائي. انسخ النص التالي ثم افتح تليجرام:';const ta=document.createElement('textarea');ta.value=text;ta.readOnly=true;ta.className='w-full mt-2 border rounded p-2 text-xs';ta.rows=4;notice.append(ta);ta.focus();ta.select();}
-    }
     function activeParts(d){return String(d.active||'').split(/\s*(?:\+|\s+\/\s+)\s*/).map(x=>x.trim()).filter(Boolean);}
     function componentKey(x){return String(x).toLowerCase().replace(/^(caps|suspension|tablets?|capsules?)\s*:\s*/,'').replace(/\([^)]*\)/g,'').replace(/\b(hydrochloride|hcl|succinate|dihydrochloride|dihydrate|hemihydrate|hydrate|besilate|besylate|maleate|fumarate|oxalate|tartrate|monohydrate)\b/g,'').replace(/\s+/g,' ').trim();}
     function hasIngredient(d,key){return ingredientKey(d)===key||activeParts(d).some(x=>componentKey(x)===componentKey(key));}
@@ -1012,7 +1002,7 @@
             </div>
             ${fullDrugDetails(d)}
             ${renderDrugAlternatives(d)}
-            <button type="button" class="edit-card-btn w-full rounded-xl border border-slate-200 bg-slate-50 py-2 text-xs font-bold text-slate-700" onclick="editDrugCard('${d.id}',this)">عدّل الكارت</button><div hidden class="edit-card-notice text-[11px] text-teal-800 border border-teal-100 rounded-lg p-2" role="status"></div>
+            <a class="edit-card-btn block text-center w-full rounded-xl border border-slate-200 bg-slate-50 py-2 text-xs font-bold text-slate-700" href="https://t.me/instinct_telegram_bot" target="_blank" rel="noopener noreferrer">عدّل الكارت</a>
             <button data-master-id="${d.id}" type="button" class="master-btn w-full py-1.5 rounded-xl text-xs font-bold border transition ${
               mastered
                 ? 'bg-emerald-600 text-white border-emerald-600 hover:bg-emerald-700'
