@@ -1,5 +1,5 @@
 // bump VERSION on every publish
-const VERSION = 'v9-active-links-2026-11-26';
+const VERSION = 'v10-batch2-2026-11-26';
 const CACHE = 'shelf-' + VERSION;
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
