@@ -1,5 +1,5 @@
 // bump VERSION on every publish
-const VERSION = 'v14-batch3-2026-11-26';
+const VERSION = 'v15-reverse-quiz';
 const CACHE = 'shelf-' + VERSION;
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
