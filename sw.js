@@ -1,5 +1,5 @@
 // bump VERSION on every publish
-const VERSION = 'v1027-2026-11-28';
+const VERSION = 'v1028';
 const CACHE = 'shelf-' + VERSION;
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
